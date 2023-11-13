@@ -55,7 +55,7 @@ function [coef, nodes] = coef_nodes(n)
         real_n = floor(n/2);
         out = zeros(1,n);
         for k = 1:(real_n  + 2)
-            out(k) = 2/((1-x(k)^2)*Legendre_integral_test(x(k),n)^2);
+            out(k) = 2/((1-x(k)^2)*Legendre_integral(x(k),n)^2);
         end
         for k = real_n + 2:n
             out(k) = out(n + 1 - k);

@@ -1,10 +1,10 @@
 function [out] = integrate_using_Gauss_Legendre(a, b, n, f)
-% function that calculates integral from a to b of function f using
+% function that calculates the integral from a to b of function f using
 % Gauss_Legendre rule
 % a - double
 % b - double
 % n - int
-% f - function hendler with elementwise operations(np. "./", ".*")
+% f - function handler with elementwise operations(np. "./", ".*")
 %out - double
 if a == inf || b == inf || a >= b  || n < 3 || mod(n,2)==0 || mod (n,1) ~= 0
     error('Wrong input !!!!!')
@@ -17,7 +17,7 @@ end
 %     end
 
     function [coef, nodes] = coef_nodes(n)
-    % function that calculates nodes(roots of Legendre polynomia) and their
+    % function that calculates nodes(roots of Legendre polynomial) and their
     % coefficient
     % n - int
     % coef - array of doubles
@@ -27,9 +27,9 @@ end
         coef = Legendre_weight(nodes,n);
     
         function [out] = Legendre_poly(x, n)
-        % Function which calculate the Legendre polynomial of degree n at x
-        % Function will use recursive formula to find Legendre polynomia.
-        % To optymize complexity of this function we will use 
+        % Function which calculates the Legendre polynomial of degree n at x
+        % Function will use a recursive formula to find the Legendre polynomial.
+        % To optimize complexity of this function we will use 
         % Dynamic Programing (recursion+memoziation) to
         % have time complexity = O(n)
         % x - double
@@ -67,13 +67,13 @@ end
         function[out] = Legendre_weight(x ,n)
         % Function that calculates weights for roots of Legendre polynomial of
         % degree n at x
-        % x - array of doubles
+        % x - an array of doubles
         % n - int
-        % out - array of doubles
+        % out - an array of doubles
             real_n = floor(n/2);
             out = zeros(1,n);
             for k = 1:(real_n  + 2)
-                out(k) = 2/((1-x(k)^2)*Legendre_integral_test(x(k),n)^2);
+                out(k) = 2/((1-x(k)^2)*Legendre_integral(x(k),n)^2);
             end
             for k = real_n + 2:n
                 out(k) = out(n + 1 - k);
@@ -84,7 +84,7 @@ end
         function [out] = Legendre_roots(n)
         % finding the roots of Legendre polynomial of degree n
         % n - int
-        % out - array of doubles
+        % out - an array of doubles
     
             function [out] = Initial_guess(k, n)
             % initial guess for Newton’s method
@@ -94,7 +94,7 @@ end
                 out = (1 - 1/(8*n^2) + 1/(8*n^3))*cos(pi*(4*k - 1)/(4*n + 2));
             end
     
-            % we only need to find half of the roots other will be have changed
+            % we only need to find half of the roots others will have changed
             % sign
             real_n = floor(n/2);
             out = zeros(1,n);
@@ -104,10 +104,10 @@ end
                 x_real = x_approx - Legendre_poly(x_approx, n)/Legendre_integral(x_approx, n);
                 % i is a backup measurement to prevent infinite loop
                 i=0;
-                % 999 is constant number which allows to go into first iteration
-                % of while loop
+                % 999 is a constant number which allows us to go into the first iteration
+                % of the while loop
                 x_prev = 999;
-                % 0.000000001 - is maximum error between itertions
+                % 0.000000001 - is the maximum error between iterations
                 while abs(x_prev - x_real) > 0.000000001 && i < 1000000
                     i = i + 1;
                     x_prev = x_real;
@@ -118,7 +118,7 @@ end
             end
             % middle node will always be 0 for odd numbers of nodes
             out(real_n + 1) = 0;
-            % changing sign symetrically
+            % changing sign symmetrically
             for k = real_n + 2:n
                 out(k) = out(n + 1 - k)*(-1);
             end

@@ -1,4 +1,5 @@
 function [out] = integrate_using_Gauss_Legendre(a, b, n, f)
+% Piotr Mozeluk
 % function that calculates the integral from a to b of function f using
 % Gauss_Legendre rule
 % a - double
